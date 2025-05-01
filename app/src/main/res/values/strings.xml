@@ -92,7 +92,6 @@
 </string>
 
 
-
     <!-- Password Change Window Strings -->
     <string name="change_password_page">Change Password</string>
     <string name="current_password">Current Password</string>
@@ -221,7 +220,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
     <!-- Added strings -->
     <string name="terms_and_conditions_content">Your terms and conditions content here.</string>
     <string name="helpful">Helpful</string>
@@ -287,5 +285,16 @@
     </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="scam_alert_banner">⚠️ Scam Alert: Check out the latest scam reports below.</string>
+    <string name="alert_text">This is a placeholder alert message.</string>
+    <string name="news_list_description">Scrollable list of news articles</string>
+    <string name="title_smish_or_safe">Smish or Safe?</string>
+    <string name="hint_input_message">Paste the suspicious message here</string>
+    <string name="btn_analyze">Analyze Message</string>
+    <string name="label_risk_level">Risk Level: -</string>
+    <string name="no_analysis">No analysis yet.</string>
+    <string name="tip_message">Tip: Avoid clicking links in suspicious messages.</string>
+    <string name="logo_desc">App Logo</string>
+
 
 </resources>

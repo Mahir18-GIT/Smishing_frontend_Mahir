@@ -6,9 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.TextView;
-import android.os.Handler;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,15 +16,13 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.smishingdetectionapp.databinding.ActivityMainBinding;
 import com.example.smishingdetectionapp.detections.DatabaseAccess;
 import com.example.smishingdetectionapp.detections.DetectionsActivity;
-import com.example.smishingdetectionapp.ui.login.LoginActivity;
-
-
 import com.example.smishingdetectionapp.notifications.NotificationPermissionDialogFragment;
+import com.example.smishingdetectionapp.ui.AnalyzeMessageActivity;
+ // ✅ Corrected import
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends SharedActivity {
     private AppBarConfiguration mAppBarConfiguration;
-
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -35,13 +31,17 @@ public class MainActivity extends SharedActivity {
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_home, R.id.nav_news, R.id.nav_settings)
-                .build();
+        // AppBar navigation
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_news, R.id.nav_settings
+        ).build();
 
+        // Notification permission
         if (!areNotificationsEnabled()) {
             showNotificationPermissionDialog();
         }
 
+        // Bottom Navigation
         BottomNavigationView nav = findViewById(R.id.bottom_navigation);
         nav.setSelectedItemId(R.id.nav_home);
         nav.setOnItemSelectedListener(menuItem -> {
@@ -62,41 +62,40 @@ public class MainActivity extends SharedActivity {
             return false;
         });
 
-        Button debug_btn = findViewById(R.id.debug_btn);
-        debug_btn.setOnClickListener(v ->
-                startActivity(new Intent(MainActivity.this, DebugActivity.class)));
+        // ✅ Optional: Commenting out debug_btn if not used
+        // Button debug_btn = findViewById(R.id.debug_btn);
+        // debug_btn.setOnClickListener(v ->
+        //         startActivity(new Intent(MainActivity.this, DebugActivity.class)));
 
+        // Detections Button
         Button detections_btn = findViewById(R.id.detections_btn);
         detections_btn.setOnClickListener(v -> {
             startActivity(new Intent(this, DetectionsActivity.class));
             finish();
         });
 
+        // Learn More About Smishing
         Button learnMoreButton = findViewById(R.id.learn_more_btn);
         learnMoreButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EducationActivity.class);
             startActivity(intent);
         });
 
+        // ✅ Analyze Message Button - New Feature
+        Button analyzeMessageBtn = findViewById(R.id.btn_analyze_message);
+        analyzeMessageBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AnalyzeMessageActivity.class);
+            startActivity(intent);
+        });
 
-        // Database connection
+        // 📊 Load detection counter
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
-        //setting counter from result
-        TextView total_count;
-        total_count = findViewById(R.id.total_counter);
-        total_count.setText(""+databaseAccess.getCounter());
-        //closing the connection
-        //databaseAccess.close();
-        //TODO: Add functionality for new detections.
 
-        // Setting counter from the result
-        //TextView total_count = findViewById(R.id.total_counter);
-        //total_count.setText("" + databaseAccess.getCounter());
+        TextView total_count = findViewById(R.id.total_counter);
+        total_count.setText("" + databaseAccess.getCounter());
 
-        // Closing the connection
         databaseAccess.close();
-
     }
 
     private boolean areNotificationsEnabled() {
