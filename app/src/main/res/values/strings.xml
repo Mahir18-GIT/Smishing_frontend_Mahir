@@ -18,6 +18,7 @@
     <string name="prompt_password">Password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="toggle_password_visibility">Toggle password visibility</string>
+    <string name="action_welcome_to_screen">Welcome Back</string>
     <string name="action_login_in">Login</string>
     <string name="action_sign_in">Sign In</string>
     <string name="action_sign_in_short">Sign in</string>
@@ -92,7 +93,6 @@
 </string>
 
 
-
     <!-- Password Change Window Strings -->
     <string name="change_password_page">Change Password</string>
     <string name="current_password">Current Password</string>
@@ -154,7 +154,8 @@
     <string name="agree_terms_and_conditions">I agree to the terms and conditions</string>
 
     <!-- Detection Page Strings -->
-    <string name="pnTitle">Phone: </string>
+    <string name="delete_text">Delete</string>
+    <string name="pnTitle">Number: </string>
     <string name="msgTitle">Message: </string>
     <string name="dateTitle">Date: </string>
 
@@ -219,7 +220,6 @@
     <string name="title_activity_signup">SignupActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
 
 
     <!-- Added strings -->
@@ -287,5 +287,17 @@
     </string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="scam_alert_banner">⚠️ Scam Alert: Check out the latest scam reports below.</string>
+    <string name="alert_text">This is a placeholder alert message.</string>
+    <string name="news_list_description">Scrollable list of news articles</string>
+    <string name="title_smish_or_safe">Smish or Safe?</string>
+    <string name="hint_input_message">Paste the suspicious message here</string>
+    <string name="btn_analyze">Analyze Message</string>
+    <string name="label_risk_level">Risk Level: -</string>
+    <string name="no_analysis">No analysis yet.</string>
+    <string name="tip_message">Tip: Avoid clicking links in suspicious messages.</string>
+    <string name="logo_desc">App Logo</string>
+
+    <string name="login_with_pin">Login with PIN</string>
 
 </resources>
