@@ -5,6 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 
+import android.view.View;
+
+import com.example.smishingdetectionapp.ui.EducationFragment;
+import androidx.fragment.app.Fragment;
+
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -45,6 +51,8 @@ public class MainActivity extends SharedActivity {
 
         // Bottom Navigation
         BottomNavigationView nav = binding.bottomNavigation;
+        BottomNavigationView nav = findViewById(R.id.bottom_navigation);
+
         nav.setSelectedItemId(R.id.nav_home);
         nav.setOnItemSelectedListener(menuItem -> {
             int id = menuItem.getItemId();
@@ -72,14 +80,29 @@ public class MainActivity extends SharedActivity {
 
         // Learn More About Smishing
         binding.learnMoreBtn.setOnClickListener(v -> {
+        Button learnMoreButton = findViewById(R.id.learn_more_btn);
+        /*learnMoreButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, EducationActivity.class);
             startActivity(intent);
         });
 
         // Risk Scanner Button
         binding.scannerBtn.setOnClickListener(v -> {
+
+*/
+        learnMoreButton.setOnClickListener(v -> {
+            findViewById(R.id.home_layout).setVisibility(View.GONE);
+            findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new EducationFragment())
+                    .commit();
+        });
+
+        Button scanner_btn = findViewById(R.id.scanner_btn);
+        scanner_btn.setOnClickListener(v -> {
             startActivity(new Intent(this, RiskScannerTCActivity.class));
             finish();
+
         });
 
         // Analyze Message Button - New Feature
@@ -92,6 +115,19 @@ public class MainActivity extends SharedActivity {
         DatabaseAccess databaseAccess = DatabaseAccess.getInstance(getApplicationContext());
         databaseAccess.open();
         binding.totalCounter.setText(String.valueOf(databaseAccess.getCounter()));
+        //setting counter from result
+        TextView total_count;
+        total_count = findViewById(R.id.total_counter);
+        total_count.setText(""+databaseAccess.getCounter());
+        //closing the connection
+        //databaseAccess.close();
+        //TODO: Add functionality for new detections.
+
+        //Setting counter from the result
+        //TextView total_count = findViewById(R.id.total_counter);
+        //total_count.setText("" + databaseAccess.getCounter());
+
+        // Closing the connection
         databaseAccess.close();
     }
 

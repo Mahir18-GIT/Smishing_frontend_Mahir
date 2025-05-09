@@ -29,8 +29,9 @@ import java.util.List;
 
 public class NewsActivity extends SharedActivity implements SelectListener {
 
+public class NewsActivity extends SharedActivity implements SelectListener {
     RecyclerView recyclerView;
-    NewsAdapter adapter;
+    NewsAdapter adapter; // moved to class scope to reuse
     NewsRequestManager manager;
     ProgressBar progressBar;
     TextView errorMessage, alertText;
@@ -76,6 +77,34 @@ public class NewsActivity extends SharedActivity implements SelectListener {
         loadData();
 
         // Refresh Button
+        // Initialize ProgressBar and set it visible before fetching data
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        // Initialize RecyclerView and Adapter ONCE
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 1));
+        adapter = new NewsAdapter(this);
+        recyclerView.setAdapter(adapter);
+
+        // Initialize NewsRequestManager and fetch RSS feed data
+        manager = new NewsRequestManager(this);
+        manager.fetchRSSFeed(new OnFetchDataListener<RSSFeedModel.Feed>() {
+            @Override
+            public void onFetchData(List<RSSFeedModel.Article> list, String message) {
+                adapter.submitList(list); // Only update data, don't reassign adapter
+                progressBar.setVisibility(View.GONE); // Hide ProgressBar after fetching data
+            }
+
+            @Override
+            public void onError(String message) {
+                errorMessage.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE); // Hide ProgressBar on error
+            }
+        });
+
+        // Set up the refresh button click listener
         refreshButton.setOnClickListener(v -> {
             if (isNetworkConnected()) {
                 loadData();
@@ -114,6 +143,8 @@ public class NewsActivity extends SharedActivity implements SelectListener {
             public void onFetchData(List<RSSFeedModel.Article> list, String message) {
                 showNews(list);
                 progressBar.setVisibility(View.GONE);
+                adapter.submitList(list); // Only update data
+                progressBar.setVisibility(View.GONE); // Hide ProgressBar after fetching data
             }
 
             @Override
@@ -165,4 +196,7 @@ public class NewsActivity extends SharedActivity implements SelectListener {
             Toast.makeText(this, "No URL available", Toast.LENGTH_SHORT).show();
         }
     }
+}
+
+
 }

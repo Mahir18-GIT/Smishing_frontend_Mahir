@@ -4,15 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewsActivity">
+    tools:context=".NewsActivity"
+    android:background="@color/white">
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="0dp"
-        android:layout_height="60dp"
+    <!-- Top horizontal layout: Logo + Heading -->
+    <LinearLayout
+        android:id="@+id/topHeaderContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:itemBackground="@color/baby_blue"
         app:itemIconTint="@color/black"
         app:itemTextColor="@color/black"
@@ -21,8 +26,16 @@
         app:itemPaddingBottom="10dp"
         app:itemActiveIndicatorStyle="@android:color/transparent"
         android:theme="@style/Theme.SmishingDetectionApp"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/activity_main_drawer">
 
+
+        <ImageView
+            android:id="@+id/new_logo"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="12dp"
+            app:srcCompat="@drawable/new_logo"
+            android:contentDescription="@string/hardhat_logo_alt"/>
     <ImageView
         android:id="@+id/HardhatLogo"
         android:layout_width="112dp"
@@ -63,8 +76,36 @@
         app:cardCornerRadius="8dp"
         app:layout_constraintTop_toBottomOf="@id/NewsText"
         android:layout_marginTop="24dp"
+        <TextView
+            android:id="@+id/NewsText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/menu_Cyber_news"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@color/navy_blue"
+            android:gravity="center_vertical" />
+    </LinearLayout>
+
+    <!-- RecyclerView: occupies major space -->
+
+    <!-- Full-width Refresh button at bottom of content -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/news_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="@string/logo_description"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:scrollbarSize="5dp"
+        android:scrollbarThumbVertical="@android:color/darker_gray"
+        android:scrollbars="vertical"
+        app:layout_constraintBottom_toTopOf="@id/refreshButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/topHeaderContainer"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/new_logo" />
 
         <TextView
             android:id="@+id/alert_text"
@@ -86,6 +127,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5" />
+    <Button
+        android:id="@+id/refreshButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh"
+        android:textColor="@color/navy_blue"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="12dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Error message -->
+    <TextView
+        android:id="@+id/errorTextView"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/no_network_message"
+        android:visibility="gone"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/news_recycler_view"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/news_recycler_view"
@@ -114,6 +183,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5" />
 
+    <!-- Centered loading spinner -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -122,5 +192,21 @@
         app:layout_constraintTop_toTopOf="@id/news_recycler_view"
         app:layout_constraintBottom_toBottomOf="@id/news_recycler_view"
         app:layout_constraintStart_toStartOf="@id/news_recycler_view"
+        app:layout_constraintEnd_toEndOf="@id/news_recycler_view" />
+
+    <!-- Bottom navigation bar -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:itemBackground="@color/baby_blue"
+        app:itemIconTint="@color/black"
+        app:itemTextColor="@color/black"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
+        android:theme="@style/Theme.SmishingDetectionApp"
+        app:menu="@menu/activity_main_drawer" />
         app:layout_constraintEnd_toEndOf="@id/news_recycler_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>
